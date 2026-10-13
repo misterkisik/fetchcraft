@@ -16,16 +16,17 @@ class FetchCraftApp(Adw.Application):
             application_id="org.cleanarch.FetchCraft",
             flags=Gio.ApplicationFlags.DEFAULT_FLAGS
         )
+        self.connect("startup", self._on_startup)
+        self.connect("activate", self._on_activate)
 
-    def do_activate(self):
+    def _on_startup(self, _app):
+        self.set_accels_for_action("win.about", ["F1"])
+
+    def _on_activate(self, _app):
         win = self.props.active_window
         if not win:
             win = MainWindow(self)
         win.present()
-
-    def do_startup(self):
-        super().do_startup()
-        self.set_accels_for_action("win.about", ["F1"])
 
 def main():
     app = FetchCraftApp()
