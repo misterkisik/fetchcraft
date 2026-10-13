@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="data/fetchcraft.png" width="128" height="128" alt="FetchCraft Logo" />
+
 # ⚡ FetchCraft
 
 **Interactive Visual GUI Configurator and Live Terminal Designer for Fastfetch**
@@ -7,6 +9,7 @@
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Platform](https://img.shields.io/badge/Platform-Arch%20Linux%20%7C%20Linux-brightgreen.svg)](#)
 [![GTK4 & Libadwaita](https://img.shields.io/badge/UI-GTK4%20%2F%20Libadwaita-blue.svg)](#)
+[![Languages: EN | RU | ES | FR](https://img.shields.io/badge/i18n-EN%20%7C%20RU%20%7C%20ES%20%7C%20FR-orange.svg)](#)
 
 *Craft your ultimate terminal system fetch with zero manual JSON guesswork.*
 
@@ -17,6 +20,9 @@
 ## 🌟 Features
 
 - **📺 Real-Time Terminal Live Preview**: Built directly with `Vte.Terminal` using Catppuccin Mocha colors and true monospace font rendering. Every toggle, separator, and color change renders instantly without leaving the window.
+- **🌍 Multilingual Interface (i18n)**:
+  - First-run language selection modal (Russian, English, Spanish, French).
+  - Dynamic on-the-fly language switching from the top menu without restarts.
 - **🧩 Visual Module Manager**:
   - Reorder, enable, disable, and configure all 76+ Fastfetch modules (CPU, GPU, Memory, Disks, Kernel, Uptime, DE, WM, IP, Media, etc.).
   - Searchable "Add Module" modal with category filters.
@@ -60,6 +66,18 @@ Or install locally with pip:
 ```bash
 pip install -e .
 ```
+
+Or build package with makepkg:
+```bash
+makepkg -si
+```
+
+---
+
+## 👤 Author & Copyright
+
+- **Author**: MisterKisik ([GitHub](https://github.com/misterkisik))
+- **Copyright**: © 2026 MisterKisik
 
 ---
 

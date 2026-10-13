@@ -16,6 +16,7 @@ gi.require_version("Vte", "3.91")
 from gi.repository import Gtk, Adw, Vte, Gdk, Pango, GLib
 
 from .config_manager import ConfigManager
+from .i18n import tr
 
 CATPPUCCIN_PALETTE = [
     "#45475a", "#f38ba8", "#a6e3a1", "#f9e2af", "#89b4fa", "#f5c2e7", "#94e2d5", "#bac2de",
@@ -52,10 +53,10 @@ class PreviewPanel(Gtk.Box):
         # Title with terminal badge
         title_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
         icon = Gtk.Image.new_from_icon_name("utilities-terminal-symbolic")
-        title_label = Gtk.Label(label="Live Fastfetch Preview")
-        title_label.add_css_class("heading")
+        self.title_label = Gtk.Label(label=tr("preview_heading"))
+        self.title_label.add_css_class("heading")
         title_box.append(icon)
-        title_box.append(title_label)
+        title_box.append(self.title_label)
 
         header_box.append(title_box)
 
@@ -69,30 +70,37 @@ class PreviewPanel(Gtk.Box):
         header_box.append(self.spinner)
 
         # Font zoom out
-        zoom_out_btn = Gtk.Button.new_from_icon_name("zoom-out-symbolic")
-        zoom_out_btn.set_tooltip_text("Decrease terminal font size")
-        zoom_out_btn.connect("clicked", self._on_zoom_out)
-        header_box.append(zoom_out_btn)
+        self.zoom_out_btn = Gtk.Button.new_from_icon_name("zoom-out-symbolic")
+        self.zoom_out_btn.set_tooltip_text(tr("preview_zoom_out_tip"))
+        self.zoom_out_btn.connect("clicked", self._on_zoom_out)
+        header_box.append(self.zoom_out_btn)
 
         # Font zoom in
-        zoom_in_btn = Gtk.Button.new_from_icon_name("zoom-in-symbolic")
-        zoom_in_btn.set_tooltip_text("Increase terminal font size")
-        zoom_in_btn.connect("clicked", self._on_zoom_in)
-        header_box.append(zoom_in_btn)
+        self.zoom_in_btn = Gtk.Button.new_from_icon_name("zoom-in-symbolic")
+        self.zoom_in_btn.set_tooltip_text(tr("preview_zoom_in_tip"))
+        self.zoom_in_btn.connect("clicked", self._on_zoom_in)
+        header_box.append(self.zoom_in_btn)
 
         # Copy button
-        copy_btn = Gtk.Button.new_from_icon_name("edit-copy-symbolic")
-        copy_btn.set_tooltip_text("Copy output to clipboard")
-        copy_btn.connect("clicked", self._on_copy_clicked)
-        header_box.append(copy_btn)
+        self.copy_btn = Gtk.Button.new_from_icon_name("edit-copy-symbolic")
+        self.copy_btn.set_tooltip_text(tr("preview_copy_tip"))
+        self.copy_btn.connect("clicked", self._on_copy_clicked)
+        header_box.append(self.copy_btn)
 
         # Manual Refresh button
-        refresh_btn = Gtk.Button.new_from_icon_name("view-refresh-symbolic")
-        refresh_btn.set_tooltip_text("Refresh preview")
-        refresh_btn.connect("clicked", lambda _: self.request_refresh(force=True))
-        header_box.append(refresh_btn)
+        self.refresh_btn = Gtk.Button.new_from_icon_name("view-refresh-symbolic")
+        self.refresh_btn.set_tooltip_text(tr("preview_refresh_tip"))
+        self.refresh_btn.connect("clicked", lambda _: self.request_refresh(force=True))
+        header_box.append(self.refresh_btn)
 
         self.append(header_box)
+
+    def retranslate(self):
+        self.title_label.set_label(tr("preview_heading"))
+        self.zoom_out_btn.set_tooltip_text(tr("preview_zoom_out_tip"))
+        self.zoom_in_btn.set_tooltip_text(tr("preview_zoom_in_tip"))
+        self.copy_btn.set_tooltip_text(tr("preview_copy_tip"))
+        self.refresh_btn.set_tooltip_text(tr("preview_refresh_tip"))
 
     def _build_terminal(self):
         frame = Gtk.Frame()

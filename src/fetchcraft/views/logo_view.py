@@ -11,6 +11,7 @@ from gi.repository import Gtk, Adw
 
 from ..models import POPULAR_LOGOS
 from ..config_manager import ConfigManager
+from ..i18n import tr
 
 LOGO_TYPES = [
     ("auto", "Automatic (Default)"),
@@ -35,28 +36,28 @@ class LogoView(Adw.PreferencesPage):
 
     def _build_logo_source_group(self):
         self.source_group = Adw.PreferencesGroup(
-            title="Logo Source &amp; Artwork",
-            description="Select which distribution ASCII art or custom image to display."
+            title=tr("logo_source_group"),
+            description=tr("logo_source_desc")
         )
 
         labels = [name for _, name in POPULAR_LOGOS] + ["Other Built-in Name...", "Custom File..."]
         self._logo_keys = [code for code, _ in POPULAR_LOGOS]
 
         self.logo_combo = Adw.ComboRow(
-            title="Distribution Logo",
+            title=tr("logo_distro"),
             model=Gtk.StringList.new(labels)
         )
         self.logo_combo.connect("notify::selected", self._on_logo_changed)
         self.source_group.add(self.logo_combo)
 
         # Custom logo name entry (if "Other Built-in Name" is selected)
-        self.custom_name_entry = Adw.EntryRow(title="Built-in Distro Name")
+        self.custom_name_entry = Adw.EntryRow(title=tr("logo_custom_name"))
         self.custom_name_entry.set_visible(False)
         self.custom_name_entry.connect("changed", self._on_custom_name_changed)
         self.source_group.add(self.custom_name_entry)
 
         # Custom file row (if "Custom File" is selected)
-        self.file_row = Adw.ActionRow(title="Logo File Path")
+        self.file_row = Adw.ActionRow(title=tr("logo_file_path"))
         self.file_entry = Gtk.Entry()
         self.file_entry.set_hexpand(True)
         self.file_entry.set_valign(Gtk.Align.CENTER)
@@ -64,11 +65,11 @@ class LogoView(Adw.PreferencesPage):
         self.file_entry.connect("changed", self._on_file_path_changed)
         self.file_row.add_suffix(self.file_entry)
 
-        browse_btn = Gtk.Button.new_from_icon_name("document-open-symbolic")
-        browse_btn.set_valign(Gtk.Align.CENTER)
-        browse_btn.set_tooltip_text("Browse Logo File...")
-        browse_btn.connect("clicked", self._on_browse_file)
-        self.file_row.add_suffix(browse_btn)
+        self.browse_btn = Gtk.Button.new_from_icon_name("document-open-symbolic")
+        self.browse_btn.set_valign(Gtk.Align.CENTER)
+        self.browse_btn.set_tooltip_text(tr("logo_browse_tip"))
+        self.browse_btn.connect("clicked", self._on_browse_file)
+        self.file_row.add_suffix(self.browse_btn)
 
         self.file_row.set_visible(False)
         self.source_group.add(self.file_row)
@@ -77,14 +78,14 @@ class LogoView(Adw.PreferencesPage):
 
     def _build_logo_layout_group(self):
         self.layout_group = Adw.PreferencesGroup(
-            title="Logo Spacing &amp; Rendering",
-            description="Fine-tune character padding between the logo and system metrics."
+            title=tr("logo_layout_group"),
+            description=tr("logo_layout_desc")
         )
 
         # Padding right
         adj = Gtk.Adjustment(value=2, lower=0, upper=15, step_increment=1, page_increment=1)
-        self.padding_spin = Adw.SpinRow(title="Right Padding", adjustment=adj)
-        self.padding_spin.set_subtitle("Number of empty columns between logo and text")
+        self.padding_spin = Adw.SpinRow(title=tr("logo_padding_right"), adjustment=adj)
+        self.padding_spin.set_subtitle(tr("logo_padding_right_sub"))
         self.padding_spin.connect("notify::value", self._on_padding_changed)
         self.layout_group.add(self.padding_spin)
 
@@ -93,13 +94,27 @@ class LogoView(Adw.PreferencesPage):
         self._type_keys = [code for code, _ in LOGO_TYPES]
 
         self.type_combo = Adw.ComboRow(
-            title="Logo Render Type",
+            title=tr("logo_render_type"),
             model=Gtk.StringList.new(type_labels)
         )
         self.type_combo.connect("notify::selected", self._on_type_changed)
         self.layout_group.add(self.type_combo)
 
         self.add(self.layout_group)
+
+    def retranslate(self):
+        self.source_group.set_title(tr("logo_source_group"))
+        self.source_group.set_description(tr("logo_source_desc"))
+        self.logo_combo.set_title(tr("logo_distro"))
+        self.custom_name_entry.set_title(tr("logo_custom_name"))
+        self.file_row.set_title(tr("logo_file_path"))
+        self.browse_btn.set_tooltip_text(tr("logo_browse_tip"))
+
+        self.layout_group.set_title(tr("logo_layout_group"))
+        self.layout_group.set_description(tr("logo_layout_desc"))
+        self.padding_spin.set_title(tr("logo_padding_right"))
+        self.padding_spin.set_subtitle(tr("logo_padding_right_sub"))
+        self.type_combo.set_title(tr("logo_render_type"))
 
     def _sync_from_config(self):
         if self._updating:

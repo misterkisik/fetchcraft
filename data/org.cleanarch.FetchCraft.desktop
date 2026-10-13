@@ -1,7 +1,13 @@
 [Desktop Entry]
 Name=FetchCraft
 GenericName=Fastfetch Designer
+GenericName[ru]=Дизайнер Fastfetch
+GenericName[es]=Diseñador de Fastfetch
+GenericName[fr]=Concepteur Fastfetch
 Comment=Interactive Visual GUI Configurator and Live Terminal Designer for Fastfetch
+Comment[ru]=Интерактивный графический конфигуратор и живой дизайнер Fastfetch
+Comment[es]=Configurador visual y diseñador en vivo para Fastfetch
+Comment[fr]=Configurateur visuel et concepteur en direct pour Fastfetch
 Exec=fetchcraft
 Icon=org.cleanarch.FetchCraft
 Terminal=false

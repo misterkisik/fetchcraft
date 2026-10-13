@@ -10,6 +10,7 @@ from gi.repository import Gtk, Adw
 
 from ..models import COLOR_NAMES, SEPARATOR_PRESETS, COLOR_SYMBOLS
 from ..config_manager import ConfigManager
+from ..i18n import tr
 
 class StyleView(Adw.PreferencesPage):
     def __init__(self, config_manager: ConfigManager):
@@ -26,8 +27,8 @@ class StyleView(Adw.PreferencesPage):
 
     def _build_color_group(self):
         self.color_group = Adw.PreferencesGroup(
-            title="Colors &amp; Highlighting",
-            description="Customize ANSI color accents for keys, title, and output text."
+            title=tr("style_colors_group"),
+            description=tr("style_colors_desc")
         )
 
         color_labels = [name for _, name in COLOR_NAMES]
@@ -35,8 +36,8 @@ class StyleView(Adw.PreferencesPage):
 
         # Keys Color
         self.keys_combo = Adw.ComboRow(
-            title="Keys Color",
-            subtitle="Color of module names on the left",
+            title=tr("style_keys_color"),
+            subtitle=tr("style_keys_color_sub"),
             model=Gtk.StringList.new(color_labels)
         )
         self.keys_combo.connect("notify::selected", self._on_key_color_changed)
@@ -44,8 +45,8 @@ class StyleView(Adw.PreferencesPage):
 
         # Title Color
         self.title_combo = Adw.ComboRow(
-            title="Title Color",
-            subtitle="Color of user@hostname header",
+            title=tr("style_title_color"),
+            subtitle=tr("style_title_color_sub"),
             model=Gtk.StringList.new(color_labels)
         )
         self.title_combo.connect("notify::selected", self._on_title_color_changed)
@@ -53,8 +54,8 @@ class StyleView(Adw.PreferencesPage):
 
         # Output Color
         self.output_combo = Adw.ComboRow(
-            title="Output Values Color",
-            subtitle="Color of detected system information values",
+            title=tr("style_output_color"),
+            subtitle=tr("style_output_color_sub"),
             model=Gtk.StringList.new(color_labels)
         )
         self.output_combo.connect("notify::selected", self._on_output_color_changed)
@@ -62,8 +63,8 @@ class StyleView(Adw.PreferencesPage):
 
         # Separator Color
         self.sep_color_combo = Adw.ComboRow(
-            title="Separator Color",
-            subtitle="Color of the delimiter between keys and values",
+            title=tr("style_sep_color"),
+            subtitle=tr("style_sep_color_sub"),
             model=Gtk.StringList.new(color_labels)
         )
         self.sep_color_combo.connect("notify::selected", self._on_sep_color_changed)
@@ -73,21 +74,21 @@ class StyleView(Adw.PreferencesPage):
 
     def _build_separator_group(self):
         self.sep_group = Adw.PreferencesGroup(
-            title="Separator &amp; Delimiters",
-            description="Character printed between module label and value."
+            title=tr("style_sep_group"),
+            description=tr("style_sep_desc")
         )
 
         sep_labels = [name for _, name in SEPARATOR_PRESETS] + ["Custom Delimiter..."]
         self._sep_values = [code for code, _ in SEPARATOR_PRESETS]
 
         self.sep_combo = Adw.ComboRow(
-            title="Separator Preset",
+            title=tr("style_sep_preset"),
             model=Gtk.StringList.new(sep_labels)
         )
         self.sep_combo.connect("notify::selected", self._on_sep_preset_changed)
         self.sep_group.add(self.sep_combo)
 
-        self.custom_sep_entry = Adw.EntryRow(title="Custom Separator String")
+        self.custom_sep_entry = Adw.EntryRow(title=tr("style_custom_sep"))
         self.custom_sep_entry.connect("changed", self._on_custom_sep_changed)
         self.sep_group.add(self.custom_sep_entry)
 
@@ -95,21 +96,42 @@ class StyleView(Adw.PreferencesPage):
 
     def _build_palette_group(self):
         self.palette_group = Adw.PreferencesGroup(
-            title="Color Palette Blocks",
-            description="Symbol style for the 16-color test bar at the bottom."
+            title=tr("style_palette_group"),
+            description=tr("style_palette_desc")
         )
 
         symbol_labels = [name for _, name in COLOR_SYMBOLS]
         self._symbol_values = [code for code, _ in COLOR_SYMBOLS]
 
         self.symbol_combo = Adw.ComboRow(
-            title="Palette Block Symbol",
+            title=tr("style_palette_symbol"),
             model=Gtk.StringList.new(symbol_labels)
         )
         self.symbol_combo.connect("notify::selected", self._on_symbol_changed)
         self.palette_group.add(self.symbol_combo)
 
         self.add(self.palette_group)
+
+    def retranslate(self):
+        self.color_group.set_title(tr("style_colors_group"))
+        self.color_group.set_description(tr("style_colors_desc"))
+        self.keys_combo.set_title(tr("style_keys_color"))
+        self.keys_combo.set_subtitle(tr("style_keys_color_sub"))
+        self.title_combo.set_title(tr("style_title_color"))
+        self.title_combo.set_subtitle(tr("style_title_color_sub"))
+        self.output_combo.set_title(tr("style_output_color"))
+        self.output_combo.set_subtitle(tr("style_output_color_sub"))
+        self.sep_color_combo.set_title(tr("style_sep_color"))
+        self.sep_color_combo.set_subtitle(tr("style_sep_color_sub"))
+
+        self.sep_group.set_title(tr("style_sep_group"))
+        self.sep_group.set_description(tr("style_sep_desc"))
+        self.sep_combo.set_title(tr("style_sep_preset"))
+        self.custom_sep_entry.set_title(tr("style_custom_sep"))
+
+        self.palette_group.set_title(tr("style_palette_group"))
+        self.palette_group.set_description(tr("style_palette_desc"))
+        self.symbol_combo.set_title(tr("style_palette_symbol"))
 
     def _sync_from_config(self):
         if self._updating:

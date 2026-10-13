@@ -1,4 +1,4 @@
-# Maintainer: misterkisik
+# Maintainer: MisterKisik <https://github.com/misterkisik>
 pkgname=fetchcraft
 pkgver=1.0.0
 pkgrel=1
@@ -15,22 +15,23 @@ depends=(
     'vte4'
 )
 makedepends=(
-    'python-build'
-    'python-installer'
     'python-setuptools'
-    'python-wheel'
 )
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('SKIP')
 
 build() {
     cd "$pkgname-$pkgver"
-    python -m build --wheel --no-isolation
+    python setup.py build
 }
 
 package() {
     cd "$pkgname-$pkgver"
-    python -m installer --destdir="$pkgdir" dist/*.whl
+    python setup.py install --root="$pkgdir" --optimize=1 --skip-build
     install -Dm644 data/org.cleanarch.FetchCraft.desktop "$pkgdir/usr/share/applications/org.cleanarch.FetchCraft.desktop"
     install -Dm644 data/icons/hicolor/scalable/apps/org.cleanarch.FetchCraft.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/org.cleanarch.FetchCraft.svg"
+    for sz in 32 48 64 128 256 512; do
+        install -Dm644 "data/icons/hicolor/${sz}x${sz}/apps/org.cleanarch.FetchCraft.png" \
+            "$pkgdir/usr/share/icons/hicolor/${sz}x${sz}/apps/org.cleanarch.FetchCraft.png"
+    done
 }

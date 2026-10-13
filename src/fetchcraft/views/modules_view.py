@@ -11,11 +11,12 @@ from gi.repository import Gtk, Adw, GLib
 
 from ..models import MODULE_REGISTRY, ModuleDefinition
 from ..config_manager import ConfigManager
+from ..i18n import tr
 
 class ModuleAddDialog(Adw.Window):
     def __init__(self, parent: Gtk.Window, on_select_callback):
         super().__init__(transient_for=parent, modal=True)
-        self.set_title("Add Fastfetch Module")
+        self.set_title(tr("modules_dialog_title"))
         self.set_default_size(520, 600)
         self.on_select_callback = on_select_callback
 
@@ -25,7 +26,7 @@ class ModuleAddDialog(Adw.Window):
 
         # Search bar
         self.search_entry = Gtk.SearchEntry()
-        self.search_entry.set_placeholder_text("Search modules (e.g. cpu, ram, gpu, ip, disk)...")
+        self.search_entry.set_placeholder_text(tr("modules_search_placeholder"))
         self.search_entry.set_margin_start(16)
         self.search_entry.set_margin_end(16)
         self.search_entry.set_margin_top(8)
@@ -99,7 +100,7 @@ class ModuleAddDialog(Adw.Window):
 class ModuleEditDialog(Adw.Window):
     def __init__(self, parent: Gtk.Window, mod_item: Any, index: int, on_save_callback):
         super().__init__(transient_for=parent, modal=True)
-        self.set_title("Edit Module")
+        self.set_title(tr("modules_edit_dialog_title"))
         self.set_default_size(460, 360)
         self.mod_item = mod_item
         self.index = index
@@ -110,7 +111,7 @@ class ModuleEditDialog(Adw.Window):
         content.append(header)
 
         page = Adw.PreferencesPage()
-        group = Adw.PreferencesGroup(title="Module Properties")
+        group = Adw.PreferencesGroup(title=tr("modules_edit_dialog_title"))
 
         # Determine type
         if isinstance(mod_item, str):
@@ -123,16 +124,16 @@ class ModuleEditDialog(Adw.Window):
             current_format = mod_item.get("format", "")
 
         # Type row (read only)
-        type_row = Adw.ActionRow(title="Module Type", subtitle=self.mod_type)
+        type_row = Adw.ActionRow(title=tr("modules_edit_type"), subtitle=self.mod_type)
         group.add(type_row)
 
         # Custom Key / Label
-        self.key_entry = Adw.EntryRow(title="Custom Key / Label")
+        self.key_entry = Adw.EntryRow(title=tr("modules_edit_key"))
         self.key_entry.set_text(current_key)
         group.add(self.key_entry)
 
         # Format string
-        self.format_entry = Adw.EntryRow(title="Format String (Optional)")
+        self.format_entry = Adw.EntryRow(title=tr("modules_edit_format"))
         self.format_entry.set_text(current_format)
         group.add(self.format_entry)
 
@@ -141,11 +142,11 @@ class ModuleEditDialog(Adw.Window):
         btn_box.set_margin_top(18)
         btn_box.set_halign(Gtk.Align.END)
 
-        cancel_btn = Gtk.Button(label="Cancel")
+        cancel_btn = Gtk.Button(label=tr("btn_cancel"))
         cancel_btn.connect("clicked", lambda _: self.close())
         btn_box.append(cancel_btn)
 
-        save_btn = Gtk.Button(label="Save")
+        save_btn = Gtk.Button(label=tr("btn_save"))
         save_btn.add_css_class("suggested-action")
         save_btn.connect("clicked", self._on_save)
         btn_box.append(save_btn)
@@ -186,24 +187,27 @@ class ModulesView(Adw.PreferencesPage):
         self._updating = False
 
         self.group = Adw.PreferencesGroup()
-        self.group.set_title("Active Modules")
-        self.group.set_description("Reorder, configure, or remove modules to display in terminal output.")
+        self.group.set_title(tr("modules_group_title"))
+        self.group.set_description(tr("modules_group_desc"))
 
         # Top bar with Add button
-        header_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        header_box.set_margin_bottom(8)
-
-        add_btn = Gtk.Button.new_from_icon_name("list-add-symbolic")
-        add_btn.set_label("Add Module")
-        add_btn.add_css_class("suggested-action")
-        add_btn.connect("clicked", self._on_add_clicked)
-        self.group.set_header_suffix(add_btn)
+        self.add_btn = Gtk.Button.new_from_icon_name("list-add-symbolic")
+        self.add_btn.set_label(tr("modules_add_btn"))
+        self.add_btn.add_css_class("suggested-action")
+        self.add_btn.connect("clicked", self._on_add_clicked)
+        self.group.set_header_suffix(self.add_btn)
 
         self._rows: List[Adw.ActionRow] = []
         self.add(self.group)
         self._registry_map = {m.id.lower(): m for m in MODULE_REGISTRY}
 
         self.config_manager.add_change_listener(self._refresh_rows)
+        self._refresh_rows()
+
+    def retranslate(self):
+        self.group.set_title(tr("modules_group_title"))
+        self.group.set_description(tr("modules_group_desc"))
+        self.add_btn.set_label(tr("modules_add_btn"))
         self._refresh_rows()
 
     def _on_add_clicked(self, _btn):
@@ -265,7 +269,7 @@ class ModulesView(Adw.PreferencesPage):
         # Move Up button
         up_btn = Gtk.Button.new_from_icon_name("go-up-symbolic")
         up_btn.set_valign(Gtk.Align.CENTER)
-        up_btn.set_tooltip_text("Move Up")
+        up_btn.set_tooltip_text(tr("modules_move_up"))
         up_btn.set_sensitive(idx > 0)
         up_btn.connect("clicked", lambda _, i=idx: self.config_manager.move_module_up(i))
         row.add_suffix(up_btn)
@@ -273,7 +277,7 @@ class ModulesView(Adw.PreferencesPage):
         # Move Down button
         down_btn = Gtk.Button.new_from_icon_name("go-down-symbolic")
         down_btn.set_valign(Gtk.Align.CENTER)
-        down_btn.set_tooltip_text("Move Down")
+        down_btn.set_tooltip_text(tr("modules_move_down"))
         down_btn.set_sensitive(idx < total - 1)
         down_btn.connect("clicked", lambda _, i=idx: self.config_manager.move_module_down(i))
         row.add_suffix(down_btn)
@@ -282,7 +286,7 @@ class ModulesView(Adw.PreferencesPage):
         if mod_id not in ("break", "separator"):
             edit_btn = Gtk.Button.new_from_icon_name("document-edit-symbolic")
             edit_btn.set_valign(Gtk.Align.CENTER)
-            edit_btn.set_tooltip_text("Edit Module Key / Format")
+            edit_btn.set_tooltip_text(tr("modules_edit_tip"))
             edit_btn.connect("clicked", lambda _, i=idx, item=mod_item: self._on_edit_module(i, item))
             row.add_suffix(edit_btn)
 
@@ -290,7 +294,7 @@ class ModulesView(Adw.PreferencesPage):
         del_btn = Gtk.Button.new_from_icon_name("user-trash-symbolic")
         del_btn.set_valign(Gtk.Align.CENTER)
         del_btn.add_css_class("destructive-action")
-        del_btn.set_tooltip_text("Remove Module")
+        del_btn.set_tooltip_text(tr("modules_remove_tip"))
         del_btn.connect("clicked", lambda _, i=idx: self.config_manager.remove_module(i))
         row.add_suffix(del_btn)
 
