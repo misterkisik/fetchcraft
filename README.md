@@ -57,18 +57,10 @@
 
 ## 🚀 Running FetchCraft
 
-Run directly from repository:
-```bash
-./bin/fetchcraft
+Setup guide
 ```
-
-Or install locally with pip:
-```bash
-pip install -e .
-```
-
-Or build package with makepkg:
-```bash
+git clone https://github.com/misterkisik/fetchcraft.git
+cd fetchcraft
 makepkg -si
 ```
 
