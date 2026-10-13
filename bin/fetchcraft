@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+import sys
+import os
+
+# Add src to sys.path
+script_dir = os.path.dirname(os.path.realpath(__file__))
+src_dir = os.path.abspath(os.path.join(script_dir, "..", "src"))
+if src_dir not in sys.path:
+    sys.path.insert(0, src_dir)
+
+from fetchcraft.app import main
+
+if __name__ == "__main__":
+    sys.exit(main())

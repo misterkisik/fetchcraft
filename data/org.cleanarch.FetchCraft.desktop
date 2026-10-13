@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=FetchCraft
+GenericName=Fastfetch Designer
+Comment=Interactive Visual GUI Configurator and Live Terminal Designer for Fastfetch
+Exec=fetchcraft
+Icon=org.cleanarch.FetchCraft
+Terminal=false
+Type=Application
+Categories=Utility;System;Settings;GTK;
+Keywords=fastfetch;neofetch;fetch;terminal;system;info;ascii;rice;customization;
+StartupNotify=true

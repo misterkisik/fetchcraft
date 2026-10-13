@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fetchcraft"
+version = "1.0.0"
+description = "Interactive Visual GUI Configurator and Live Terminal Designer for Fastfetch"
+readme = "README.md"
+authors = [{ name = "misterkisik" }]
+license = { text = "GPL-3.0" }
+requires-python = ">=3.9"
+dependencies = [
+    "PyGObject>=3.42.0",
+]
+
+[project.scripts]
+fetchcraft = "fetchcraft.app:main"

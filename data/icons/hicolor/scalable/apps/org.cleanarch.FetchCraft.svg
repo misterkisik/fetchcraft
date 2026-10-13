@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1e2e"/>
+      <stop offset="100%" stop-color="#11111b"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d2ff"/>
+      <stop offset="100%" stop-color="#9d4edd"/>
+    </linearGradient>
+    <linearGradient id="termGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a2b3d"/>
+      <stop offset="100%" stop-color="#181825"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Base Squircle -->
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#bgGrad)" filter="url(#shadow)"/>
+  <rect x="9" y="9" width="110" height="110" rx="27" fill="none" stroke="url(#accentGrad)" stroke-width="2" stroke-opacity="0.6"/>
+
+  <!-- Terminal Window Body -->
+  <rect x="18" y="22" width="92" height="84" rx="12" fill="url(#termGrad)"/>
+  <rect x="18" y="22" width="92" height="20" rx="12" fill="#313244"/>
+  <!-- Hide bottom rounded corners of top bar -->
+  <rect x="18" y="32" width="92" height="10" fill="#313244"/>
+
+  <!-- Terminal Control Dots -->
+  <circle cx="28" cy="32" r="3.5" fill="#f38ba8"/>
+  <circle cx="38" cy="32" r="3.5" fill="#f9e2af"/>
+  <circle cx="48" cy="32" r="3.5" fill="#a6e3a1"/>
+
+  <!-- Logo ASCII/Arch Art Stylized Peak -->
+  <path d="M 40 86 L 52 50 L 64 86 L 58 86 L 52 66 L 46 86 Z" fill="url(#accentGrad)"/>
+  <polygon points="52,72 49,82 55,82" fill="#181825"/>
+
+  <!-- Terminal Code Lines (Fetch craft data) -->
+  <!-- Line 1: Title -->
+  <rect x="68" y="52" width="34" height="4" rx="2" fill="#00d2ff"/>
+  <!-- Line 2: OS -->
+  <rect x="68" y="60" width="28" height="3" rx="1.5" fill="#bac2de"/>
+  <!-- Line 3: Kernel -->
+  <rect x="68" y="66" width="30" height="3" rx="1.5" fill="#bac2de"/>
+  <!-- Line 4: Memory -->
+  <rect x="68" y="72" width="22" height="3" rx="1.5" fill="#bac2de"/>
+
+  <!-- Color Palette dots at bottom -->
+  <circle cx="70" cy="84" r="2.5" fill="#f38ba8"/>
+  <circle cx="77" cy="84" r="2.5" fill="#fab387"/>
+  <circle cx="84" cy="84" r="2.5" fill="#f9e2af"/>
+  <circle cx="91" cy="84" r="2.5" fill="#a6e3a1"/>
+  <circle cx="98" cy="84" r="2.5" fill="#89b4fa"/>
+</svg>
