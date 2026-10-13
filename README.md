@@ -1,3 +1,5 @@
+[![Telegram](https://img.shields.io/badge/Telegram_Канал-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/justutilities)
+
 <div align="center">
 
 <img src="data/fetchcraft.png" width="128" height="128" alt="FetchCraft Logo" />
